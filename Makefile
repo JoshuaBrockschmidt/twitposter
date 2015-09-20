@@ -1,4 +1,4 @@
-NAME=twitter_poster
+NAME=twitposter
 CC=g++
 RM=rm
 SOURCES   := $(wildcard src/*.cpp)
@@ -15,7 +15,7 @@ WARNFLAGS += -Wno-pragmas -Wno-unused-but-set-parameter
 WARNFLAGS += -Wno-unused-but-set-variable -Wno-unused-result
 WARNFLAGS += -Wwrite-strings -Wdisabled-optimization -Wpointer-arith
 CPPFLAGS  := $(INCLUDES) $(WARNFLAGS) -std=c++11
-LDFLAGS   := -ltwitcurl
+LDFLAGS   := -L. -ltwitcurl
 
 all: $(NAME)
 
