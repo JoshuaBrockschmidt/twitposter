@@ -74,20 +74,16 @@ public:
 	 */
 	std::string getLastWebResponse();
 
-	class invalid_creds: public std::exception {
+	class invalid_creds: public std::runtime_error {
 	public:
 		invalid_creds(std::string m);
 		virtual const char* what() const throw();
-	private:
-		std::string msg;
 	};
 
-	class bad_tweet: public std::exception {
+	class bad_tweet: public std::runtime_error {
 	public:
 	        bad_tweet(std::string m);
 		virtual const char* what() const throw();
-	private:
-		std::string msg;
 	};
 private:
 	twitCurl twitterObj;

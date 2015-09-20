@@ -78,12 +78,14 @@ std::string TwitPoster::getLastWebResponse() {
 	return webRespond;
 }
 
-TwitPoster::invalid_creds::invalid_creds(std::string m): msg(m) {}
+TwitPoster::invalid_creds::invalid_creds(std::string m):
+	std::runtime_error(m) {}
 const char* TwitPoster::invalid_creds::what() const throw() {
-	return msg.c_str();
+	return std::runtime_error::what();
 }
 
-TwitPoster::bad_tweet::bad_tweet(std::string m): msg(m) {}
+TwitPoster::bad_tweet::bad_tweet(std::string m):
+	std::runtime_error(m) {}
 const char* TwitPoster::bad_tweet::what() const throw() {
-	return msg.c_str();
+        return std::runtime_error::what();
 }
