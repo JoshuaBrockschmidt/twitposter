@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "../twitposter.conf"
+source "$(dirname $0)/../twitposter.conf"
 
 for t in $(seq 1 $TRY_LIMIT)
 do

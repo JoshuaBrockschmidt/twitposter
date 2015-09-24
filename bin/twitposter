@@ -3,7 +3,15 @@
 #WARNING: Script must be run from this script's parent directory. A config file will be instted in the future that will allow for specification of the directory for writing associated fies.
 # N error checking is done. This script assumes the files/directories it needs to be readable/writable are so.
 
-source "../twitposter.conf"
+# Get parent directory.
+DIR=$0
+while [ -L $DIR ]
+do
+    DIR=$(readlink -f $DIR)
+done
+DIR=$(dirname $DIR)
+
+source "$DIR/../twitposter.conf"
 source "$PARENT_DIR/bash/timer.sh"
 STATUS_FILE="$PARENT_DIR/var/status"
 

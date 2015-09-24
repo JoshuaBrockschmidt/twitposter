@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "../twitposter.conf"
+source "$(dirname $0)/../twitposter.conf"
 AT_ID_FILE="$PARENT_DIR/var/at_id"
 
 schedTweet() {
