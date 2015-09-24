@@ -26,13 +26,13 @@ $(NAME): $(OBJS)
 
 genConf:
 	printf "\
-PARENT_DIR  = \"$(shell pwd)/\n\
-STATUS_FILE = \"$(shell pwd)/var/status\"\n\
-LOG_FILE    = \"$(shell pwd)/var/twitposter.log\"\n\
-ELAPSE_MIN  = 30\n\
-ELAPSE_MAX  = 240\n\
-TWEET_CMD   = \"echo This tweet was posted via TwitPoster (http://github.com/JoshuaBrockschmidt/twitposter/)\"\n\
-TRY_LIMIT   = 10\n" > $(CONFIG_FILE)
+PARENT_DIR=\"$(shell pwd)\"/\n\
+STATUS_FILE=\"$(shell pwd)/var/status\"\n\
+LOG_FILE=\"$(shell pwd)/var/twitposter.log\"\n\
+ELAPSE_MIN=30\n\
+ELAPSE_MAX=240\n\
+TWEET_CMD=\"echo This tweet was posted via TwitPoster (http://github.com/JoshuaBrockschmidt/twitposter/)\"\n\
+TRY_LIMIT=10\n" > $(CONFIG_FILE)
 
 dirs:
 	mkdir -p var;
