@@ -1,3 +1,10 @@
+/* TODO:
+ *  - Check web responses when sending tweets. This will involve JSON parsing.
+ *    Consider RapidJSON or JsonCPP.
+ *  - Account for the fact that links are shortened by Twitter.
+ *  - Check if Internet is up before attempting to send a tweet.
+ */
+
 #include <iostream>
 #include "twitposter.hpp"
 
@@ -46,6 +53,7 @@ bool TwitPoster::verifyCreds() {
 			  << std::endl;
 		return false;
 	} else {
+		//TODO: check twitCurl::getLastWebResponse()
 		return true;
 	}
 }
@@ -57,18 +65,17 @@ void TwitPoster::postTweet(std::string tweet) {
 		throw bad_tweet(m);
 	} else if (tweet.size() > 140) {
 		std::string m="TwitPoster::postTweet: "
-			"Tweet is greater than 140 characters";
+			"tweet is greater than 140 characters";
 		throw bad_tweet(m);
 	}
 
 	if (!twitterObj.statusUpdate(tweet)) {
 		std::string m="TwitPoster::postTweet: "
 			"twitCurl::statusUpdate: "
-			"Could not post tweet;"
-			"call TwitPoster::getLastWebResponse "
-			"for more information";
+			"could not post tweet";
 		throw bad_tweet(m);
 	}
+	//TODO: check with twitCurl:getLastWebResponse()
 }
 
 std::string TwitPoster::getLastWebResponse() {
