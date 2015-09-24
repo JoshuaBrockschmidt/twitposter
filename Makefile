@@ -1,6 +1,8 @@
-NAME=twitposter
+NAME=posttotwitter
 CC=g++
 RM=rm
+RMDIR=rmdir
+CONFIG_FILE=twitposter.conf
 SOURCES   := $(wildcard src/*.cpp)
 OBJS      := $(SOURCES:.cpp=.o)
 INCLUDES  := -Iinclude
@@ -17,10 +19,26 @@ WARNFLAGS += -Wwrite-strings -Wdisabled-optimization -Wpointer-arith
 CPPFLAGS  := $(INCLUDES) $(WARNFLAGS) -std=c++11
 LDFLAGS   := -L. -ltwitcurl
 
-all: $(NAME)
+all: $(NAME) genConf dirs
 
 $(NAME): $(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
+	mv $(NAME) bin
+
+genConf:
+	printf "\
+PARENT_DIR  = \"$(shell pwd)/\n\
+STATUS_FILE = \"$(shell pwd)/var/status\"\n\
+LOG_FILE    = \"$(shell pwd)/var/twitposter.log\"\n\
+ELAPSE_MIN  = 30\n\
+ELAPSE_MAX  = 240\n\
+TWEET_CMD   = \"echo This tweet was posted via TwitPoster (http://github.com/JoshuaBrockschmidt/twitposter/)\"\n\
+TRY_LIMIT   = 10\n" > $(CONFIG_FILE)
+
+dirs:
+	mkdir var
+	chmod 766 var
 
 clean:
-	$(RM) $(NAME) $(OBJS)
+	$(RM) bin/$(NAME) $(OBJS) $(CONFIG_FILE) var/*
+	$(RMDIR) var
