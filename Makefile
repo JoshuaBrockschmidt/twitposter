@@ -1,7 +1,6 @@
 NAME=posttotwitter
 CC=g++
 RM=rm
-RMDIR=rmdir
 CONFIG_FILE=twitposter.conf
 SOURCES   := $(wildcard src/*.cpp)
 OBJS      := $(SOURCES:.cpp=.o)
@@ -36,9 +35,9 @@ TWEET_CMD   = \"echo This tweet was posted via TwitPoster (http://github.com/Jos
 TRY_LIMIT   = 10\n" > $(CONFIG_FILE)
 
 dirs:
-	mkdir var
+	mkdir -p var;
 	chmod 766 var
 
 clean:
-	$(RM) bin/$(NAME) $(OBJS) $(CONFIG_FILE) var/*
-	$(RMDIR) var
+	$(RM) -f bin/$(NAME) $(OBJS) $(CONFIG_FILE)
+	$(RM) -rf var;
