@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-#WARNING: Script must be run from this script's parent directory. A config file will be instted in the future that will allow for specification of the directory for writing associated fies.
-# N error checking is done. This script assumes the files/directories it needs to be readable/writable are so.
+# WARNING: No error checking is done. This script assumes the files/directories it needs
+# to be readable/writable are so. Make sure the Makefile is run to create the
+# 'var' directory and such.
 
 # Get parent directory.
 DIR=$0
