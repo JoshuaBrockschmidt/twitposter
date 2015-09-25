@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
 # WARNING: No error checking is done. This script assumes the files/directories it needs
-# to be readable/writable are so. Make sure the Makefile is run to create the
+# to be readable/writable are so. Make sure the Makefile is ran to create the
 # 'var' directory and such.
 
 # Get parent directory.
-DIR=$0
-while [ -L $DIR ]
-do
-    DIR=$(readlink -f $DIR)
-done
-DIR=$(dirname $DIR)
+DIR=$(dirname $0)
 
 source "$DIR/../twitposter.conf"
 source "$PARENT_DIR/bash/timer.sh"

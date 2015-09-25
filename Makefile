@@ -1,4 +1,5 @@
-NAME=posttotwitter
+NAME1=posttotwitter
+NAME2=twitposter
 CC=g++
 RM=rm
 CONFIG_FILE=twitposter.conf
@@ -18,11 +19,22 @@ WARNFLAGS += -Wwrite-strings -Wdisabled-optimization -Wpointer-arith
 CPPFLAGS  := $(INCLUDES) $(WARNFLAGS) -std=c++11
 LDFLAGS   := -L. -ltwitcurl
 
-all: $(NAME) genConf dirs
+all: dirs $(NAME1) $(NAME2) genConf
 
-$(NAME): $(OBJS)
-	$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
-	mv $(NAME) bin
+dirs:
+	mkdir -p bin var
+	chmod 755 bin
+	chmod 766 var
+
+$(NAME1): $(OBJS)
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME1) $(LDFLAGS)
+	mv $(NAME1) bin
+
+$(NAME2):
+	printf "#!/usr/bin/env bash\n\n\
+$(shell pwd)/bash/main.sh \"%s@\"\n" '$$' > bin/$(NAME2)
+#TODO: print $@ literally
+	chmod 755 bin/$(NAME2)
 
 genConf:
 	printf "\
@@ -34,10 +46,6 @@ ELAPSE_MAX=240\n\
 TWEET_CMD=\"echo This tweet was posted via TwitPoster (http://github.com/JoshuaBrockschmidt/twitposter/)\"\n\
 TRY_LIMIT=10\n" > $(CONFIG_FILE)
 
-dirs:
-	mkdir -p var;
-	chmod 766 var
-
 clean:
-	$(RM) -f bin/$(NAME) $(OBJS) $(CONFIG_FILE)
-	$(RM) -rf var;
+	$(RM) -f $(OBJS) $(CONFIG_FILE)
+	$(RM) -rf var bin;
