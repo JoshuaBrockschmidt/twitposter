@@ -28,10 +28,28 @@ start() {
 	return
     fi
 
+    # Clear log.
+    printf "" > $LOG_FILE
+
+    if [ $ELAPSE_MIN -lt 1 ]
+    then
+	echo "$0: ELAPSE_MIN must be greater than 1" | tee -a $LOG_FILE
+	exit 1
+    elif [ $ELAPSE_MAX -lt $ELAPSE_MIN ]
+    then
+	echo "$0: ELAPSE_MAX must be greater than or equal to ELAPSE_MIN" | tee -a $LOG_FILE
+	exit 1
+    fi
+
     schedTweet
+    if [ $? -ne 0 ]
+    then
+	echo "$0: could not start at job"
+	exit 1
+    fi
+
     echo 1 &> $STATUS_FILE
-    echo "Started"
-    echo "Started" >> $LOG_FILE 2>&1
+    echo "Started" | tee -a $LOG_FILE
 }
 
 stop() {
@@ -40,14 +58,18 @@ stop() {
 	echo "Not running"
 	return
     fi
+
     if [ -e $AT_ID_FILE ]
     then
-	atrm $(cat $AT_ID_FILE)
-	rm $AT_ID_FILE
+	local AT_ID=$(cat $AT_ID_FILE)
+	if [ -n "$AT_ID" ]
+	then
+	   atrm $AT_ID
+	   rm $AT_ID_FILE
+	fi
     fi
     echo 0 &> $STATUS_FILE
-    echo "Stopped"
-    echo "Stopped" >> $LOG_FILE 2>&1
+    echo "Stopped" | tee -a $LOG_FILE
 }
 
 case "$1" in
