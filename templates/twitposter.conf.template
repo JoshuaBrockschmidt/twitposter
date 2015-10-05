@@ -1,0 +1,6 @@
+VAR_DIR="/var/run/twitposter/"
+LOG_FILE="/var/log/twitposter.log"
+ELAPSE_MIN=30
+ELAPSE_MAX=240
+TWEET_CMD="echo This tweet was posted via TwitPoster (http://github.com/JoshuaBrockschmidt/twitposter/)"
+TRY_LIMIT=10

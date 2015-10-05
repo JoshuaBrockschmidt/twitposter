@@ -11,21 +11,21 @@ do
 	continue
     fi
 
-    $PARENT_DIR/bin/posttotwitter "$TWEET" >> $LOG_FILE 2>&1
+    $PARENT_DIR/bin/posttotwitter "$TWEET" 2>&1 | tee -a $LOG_FILE
     if [ $? -ne 0 ]
     then
 	continue
     fi
 
     echo "$PARENT_DIR/bash/trytweet.sh: \
-tweet successfully posted: \"$TWEET\"" >> $LOG_FILE 2>&1
+tweet successfully posted: \"$TWEET\"" 2>&1 | tee -a $LOG_FILE
     break
 done
 
 if [ $t -eq $TRY_LIMIT ]
 then
     echo "$PARENT_DIR/bash/trytweet.sh: \
-could not post tweet: \"$TWEET\"" >> $LOG_FILE 2>&1
+could not post tweet: \"$TWEET\"" 2>&1 | tee -a $LOG_FILE
 fi
 
 # Schedule next Tweet

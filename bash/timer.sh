@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 source "$(dirname $0)/../twitposter.conf"
-AT_ID_FILE="$PARENT_DIR/var/at_id"
+AT_ID_FILE="$VAR_DIR/at_id"
 
 schedTweet() {
     local T
-    let "T=$RANDOM%($ELAPSE_MAX-$ELAPSE_MIN) + $ELAPSE_MIN"
-    at -f "$PARENT_DIR/bash/trytweet.sh" now + $T min 2>&1 | awk '/job/ {print $2}' > $AT_ID_FILE
-    if [ $? -ne 0 ]
+    let "T=$RANDOM%($ELAPSE_MAX-$ELAPSE_MIN+1) + $ELAPSE_MIN"
+    # The path to the script is fed in via stdout instead of -f because there
+    # were some problems resolving a relative directory name withing trytweet.sh.
+    echo "$PARENT_DIR/bash/trytweet.sh" | at -M now + $T min 2>&1 | tee -a $LOG_FILE | awk '/job/ {print $2}' > $AT_ID_FILE
+    if [ $? -ne 0 ] || [ -z $(cat $AT_ID_FILE) ]
     then
 	echo "$PARENT_DIR/bash/timer.sh: could not start at job" >> $LOG_FILE 2>&1
 	return 1
